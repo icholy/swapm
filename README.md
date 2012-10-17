@@ -37,7 +37,7 @@
 
 **Template File:** `project/swap/templates/t1.tmpl`
 
-* Mustache templates are used by default, but the engine will be configurable :)
+> Mustache templates are used by default, but the engine will be configurable :)  
 
     {{#stuff}}
       PG{{type}} * _{{name}};
