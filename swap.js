@@ -28,8 +28,7 @@ module.exports = (function(){
 
   var findInjectionPoints = function(src) {
     
-    var idx     = 0,
-        pat     = /\/\*{([^}]*)}\*\//g,
+    var pat     = /\/\*{([^}]*)}\*\//g,
         points  = [];
 
     while (true) {
@@ -44,7 +43,7 @@ module.exports = (function(){
       var startContent = start[1].trim(),
           endContent = end[1].trim();
 
-      if (startContent == "end" || endContent != "end" || start.index > end.index)
+      if (startContent == "end" || endContent != "end")
         throw "open/close order error";
 
       try {
@@ -56,8 +55,6 @@ module.exports = (function(){
       if (!params)          throw "invalid open syntax";
       if (!params.data)     throw "missing data parameter";
       if (!params.template) throw "missing template parameter";
-
-      idx = end.index;
 
       points.push({
         start:    start.index + start[0].length,
