@@ -76,7 +76,10 @@ module.exports = (function(){
     return points;
   };
 
-  var loadTemplates = function(dir, cb) {
+  var loadFiles = function(dir, callback) {
+
+    var files = {};
+
     walk.walk(dir).on("file", function(root, stat, next) {
 
       var fpath = path.join(dir, stat.name);
@@ -85,32 +88,18 @@ module.exports = (function(){
 
       fs.readFile(fpath, 'utf-8', function(err, data) {
         if (!err) {
-          templates[name] = data;
+          files[name] = data;
         } else {
           console.log('failed to read' + fpath);
         }
       });
       next();
     }).on("end", function() {
-      cb();
+      callback(files);
     });
   };
 
-  var loadData = function(dir, cb) {
-    walk.walk(dir).on("file", function(root, stat, next) {
-
-      var ext   = path.extname(stat.name);
-      var name  = path.basename(stat.name, ext);
-      var fpath = path.join(dir, name);
-      if (ext == '.js') {
-        dataSets[name] = require(fpath);
-      }
-      next();
-    }).on("end", function() {
-      cb();
-    });
-
-    var getLineNumber = function(src, idx) {
+  var getLineNumber = function(src, idx) {
       var m = src.substr(0. idx).match(/(^|\r*\n)/g);
       return m ? m.length + 1 : null;
     };
@@ -142,11 +131,15 @@ module.exports = (function(){
           calls        = [];
 
       calls.push(function(cb) {
-        loadTemplates(templatePath, cb);
+        loadFiles(templatePath, function(files) {
+          templates = files;
+        });
       });
 
       calls.push(function(cb) {
-        loadData(dataPath, cb);
+        loadData(dataPath, function(files) {
+          dataSets = files;
+        });
       });
 
       async.parallel(calls, callback || function(){});
