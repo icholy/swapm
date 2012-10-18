@@ -2,6 +2,12 @@
 
 > Code generation for the rest of us
 
+## Features
+
+* Language agnostic ( assuming /* comment syntax */ )
+* Mustache Templates + JSON
+* Very simple to integrate
+
 ## Install
 
     npm install -g swapm
