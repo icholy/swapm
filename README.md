@@ -41,7 +41,10 @@
       stuff: [
         { name: "id", type: "int8"  },
         { name: "bar",type: "float4"}
-      ]
+      ],
+      pgType: function() {
+        return ["\tPG", this.type, " * _", this.name].join('');
+      }
     }
 
 **Template File:** `project/swapm/templates/t1.tmpl`
@@ -50,6 +53,12 @@
 
     {{#stuff}}
       PG{{type}} * _{{name}};
+    {{/stuff}}
+
+this will have the same result
+
+    {{#stuff}}
+      {{pgType}}
     {{/stuff}}
 
 ## Generate
