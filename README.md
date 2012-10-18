@@ -19,6 +19,8 @@
     cd project/
     swapm --init
 
+this will create a `project/swapm` directory where your data & templates live.
+
 **Source File:** `project/foo.h`
 
     #ifndef FOO_H_
