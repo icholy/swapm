@@ -111,7 +111,7 @@ module.exports = (function(){
 
     var getLineNumber = function(src, idx) {
       var m = src.substr(0. idx).match(/(^|\r*\n)/g);
-      return m ? m.length + 1 : 0) + 1;
+      return m ? m.length + 1 : null;
     };
   };
 
