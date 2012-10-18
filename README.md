@@ -10,6 +10,7 @@
 
 **Initialize Project**
 
+    cd project/
     swapm --init
 
 **Source File:** `project/foo.h`
