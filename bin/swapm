@@ -12,7 +12,7 @@ if (argv.init) {
     var errMsg = common.errorToString(e);
     console.log(errMsg);
   }
-} else if (argv._.length == 0) {
+} else if (argv._.length === 0) {
   console.log("\n   Usage: swapm [file] [file] ...\n");
 } else {
   swapm.load(null, function(err) {
@@ -21,7 +21,7 @@ if (argv.init) {
         console.log("[+] READING :", arg);
         swapm.processFile(arg, function(err, src) {
           if (!err) {
-            if (src == null) {
+            if (src === null) {
               console.log("[-] NO CHANGES :", arg);
             } else {
               fs.writeFile(arg, src, function(err) {
