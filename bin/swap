@@ -1,0 +1,4 @@
+// the main bin
+
+var swap = require('../lib/core');
+

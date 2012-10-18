@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "code generation for the rest of us",
     "author": "icholy",
+    "main": "bin/swap",
     "repository": {
         "type": "git",
         "url": "git://github.com/icholy/swap.git"
