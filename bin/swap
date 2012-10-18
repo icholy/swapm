@@ -9,7 +9,7 @@ if (argv.init) {
 } else {
     swap.load(function() {
         argv._.forEach(function(arg) {
-            var src = swap.processFile(arg);
+            // var src = swap.processFile(arg);
             console.log("processed " + arg);
         });
     });
