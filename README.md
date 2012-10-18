@@ -14,11 +14,11 @@
 
     class Foo {
     private:
-      /*{ template: "t1", data: "d1" }*/
+      /*{{template: "t1", data: "d1"}}*/
 
                           <-- generated code will go here
 
-      /*{end}*/
+      /*{{end}}*/
     public:
       Foo(PGresult * res);
       virtual ~Foo();
