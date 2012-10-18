@@ -5,7 +5,7 @@ var swap = require('../lib/core');
 var init = require('../lib/init');
 
 if (argv.init) {
-    init(typeof argv.init == 'string' : argv.init ? process.cwd());
+    init(typeof argv.init == 'string' ? argv.init : process.cwd());
 } else {
     swap.load(function() {
         argv._.forEach(function(arg) {
