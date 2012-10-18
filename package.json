@@ -4,9 +4,6 @@
     "description": "code generation for the rest of us",
     "author": "icholy",
     "main": "./lib/core",
-    "scripts": {
-        "start": "./bin/swapm"
-    },
     "repository": {
         "type": "git",
         "url": "git://github.com/icholy/swapm.git"
