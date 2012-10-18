@@ -5,7 +5,7 @@
 ## Features
 
 * Language agnostic ( assuming /* comment syntax */ )
-* Mustache Templates + JSON
+* [Mustache](https://github.com/janl/mustache.js) Templates + JSON
 * Very simple to integrate
 
 ## Install
