@@ -70,7 +70,7 @@ module.exports = (function(){
     return points;
   };
 
-  var loadTemplates = function(dir) {
+  var loadTemplates = function(dir, cb) {
     walk.walk(dir).on("file", function(root, stat, next) {
 
       var fpath = path.join(dir, stat.name);
@@ -85,10 +85,12 @@ module.exports = (function(){
         }
       });
       next();
+    }).on("end", function() {
+      cb();
     });
   };
 
-  var loadData = function(dir) {
+  var loadData = function(dir, cb) {
     walk.walk(dir).on("file", function(root, stat, next) {
 
       var ext   = path.extname(stat.name);
@@ -98,6 +100,8 @@ module.exports = (function(){
         dataSets[name] = require(fpath);
       }
       next();
+    }).on("end", function() {
+      cb();
     });
 
     var getLineNumber = function(src, idx) {
@@ -126,8 +130,17 @@ module.exports = (function(){
 
     load: function(dir) {
       dir = path.join(dir || process.cwd(), "swap");
-      loadTemplates(path.join(dir, 'templates'));
-      loadData(path.join(dir, 'data'));
+
+      var templatePath = path.join(dir, 'templates'),
+          dataPath     = path.join(dir, 'data');
+
+      loadTemplates(templatePath, function() {
+
+      });
+
+      loadData(dataPath, function() {
+        
+      });
     },
 
     process: function(src) {
