@@ -10,7 +10,7 @@ if (argv.init) {
     swap.load(null, function(err) {
         if (!err) {
         argv._.forEach(function(arg) {
-          console.log("[+] Processing " + arg);
+          console.log("[+] PROCESSING :", arg);
           swap.processFile(arg, function(err, src) {
             if (!err) {
               console.log(src);
