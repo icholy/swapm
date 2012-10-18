@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var argv   = require('optimist').argv;
+var fs     = require('fs');
 var swap   = require('../lib/core');
 var common = require('../lib/common');
 
@@ -10,12 +11,21 @@ if (argv.init) {
   swap.load(null, function(err) {
     if (!err) {
       argv._.forEach(function(arg) {
-        console.log("[+] PROCESSING :", arg);
+        console.log("[+] READING :", arg);
         swap.processFile(arg, function(err, src) {
           if (!err) {
-            console.log(src);
+            if (src == null) {
+              console.log("[-] NO CHANGES :", arg);
+            } else {
+              fs.writeFile(arg, src, function(err) {
+                if (err) {
+                  console.log("[-] ERROR : failed to write", arg);
+                } else {
+                  console.log("[+] WRITING :", arg);
+                }
+              });
+            }
           } else {
-            console.log(err);
             var errMsg = common.errorToString(err);
             console.log(errMsg);
           }
