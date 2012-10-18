@@ -139,15 +139,15 @@ module.exports = (function(){
       });
 
       loadData(dataPath, function() {
-        
+
       });
     },
 
     process: function(src) {
        
-      findInjectionPoints(src).forEach(function(point) {
-        src = inject(src, point);
-      });
+      findInjectionPoints(src).reduce(function(s, point) {
+        return inject(s, point);
+      }, src);
 
       return src;
     },
