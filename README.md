@@ -57,7 +57,7 @@ this will create a `project/swapm` directory where your data & templates live.
         { name: "bar",type: "float4"}
       ],
       pgType: function() {
-        return ["\tPG", this.type, " * _", this.name].join('');
+        return ["\tPG", this.type, " * _", this.name, ";"].join('');
       }
     }
 
@@ -97,8 +97,8 @@ this will have the same result
     private:
 
     /*{{template: "foo_members", data: "my_data"}}*/
-        PGint8 * _id
-        PGfloat4 * _bar
+        PGint8 * _id;
+        PGfloat4 * _bar;
     /*{{end}}*/
     public:
       Foo(PGresult * res);
