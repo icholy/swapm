@@ -2,19 +2,19 @@
 
 var argv   = require('optimist').argv;
 var fs     = require('fs');
-var swap   = require('../lib/core');
+var swapm  = require('../lib/core');
 var common = require('../lib/common');
 
 if (argv.init) {
   common.initialize(typeof argv.init == 'string' ? argv.init : process.cwd());
 } else if (argv._.length == 0) {
-  console.log("\n   Usage: swap [file] [file] ...\n");
+  console.log("\n   Usage: swapm [file] [file] ...\n");
 } else {
-  swap.load(null, function(err) {
+  swapm.load(null, function(err) {
     if (!err) {
       argv._.forEach(function(arg) {
         console.log("[+] READING :", arg);
-        swap.processFile(arg, function(err, src) {
+        swapm.processFile(arg, function(err, src) {
           if (!err) {
             if (src == null) {
               console.log("[-] NO CHANGES :", arg);

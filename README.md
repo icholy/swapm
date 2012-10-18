@@ -1,4 +1,4 @@
-# Swap (Not ready for the public yet)
+# Swapm (Not ready for the public yet)
 
 > Code generation for the rest of us
 
@@ -26,7 +26,7 @@
 
     #endif /* FOO_H_ */
 
-**Data File:** `project/swap/data/d1.json`
+**Data File:** `project/swapm/data/d1.json`
 
     {
       stuff: [
@@ -35,7 +35,7 @@
       ]
     }
 
-**Template File:** `project/swap/templates/t1.tmpl`
+**Template File:** `project/swapm/templates/t1.tmpl`
 
 > Mustache templates are used by default, but the engine will be configurable :)  
 

@@ -1,15 +1,15 @@
 {
-    "name": "swap",
+    "name": "swapm",
     "version": "0.0.1",
     "description": "code generation for the rest of us",
     "author": "icholy",
     "main": "./lib/core",
     "scripts": {
-        "start": "./bin/swap"
+        "start": "./bin/swapm"
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/icholy/swap.git"
+        "url": "git://github.com/icholy/swapm.git"
     },
     "dependencies": {
         "walk": "2.2.1",
