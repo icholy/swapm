@@ -3,6 +3,7 @@ var mustache = require('mustache');
 var fs       = require('fs');
 var walk     = require('walk');
 var path     = require('path');
+var async    = require('async');
 
 module.exports = (function(){
 
@@ -133,19 +134,22 @@ module.exports = (function(){
       return Object.keys(templates);
     },
 
-    load: function(dir) {
+    load: function(dir, callback) {
       dir = path.join(dir || process.cwd(), "swap");
 
       var templatePath = path.join(dir, 'templates'),
-          dataPath     = path.join(dir, 'data');
+          dataPath     = path.join(dir, 'data'),
+          calls        = [];
 
-      loadTemplates(templatePath, function() {
-
+      calls.push(function(cb) {
+        loadTemplates(templatePath, cb);
       });
 
-      loadData(dataPath, function() {
-
+      calls.push(function(cb) {
+        loadData(dataPath, cb);
       });
+
+      async.parallel(calls, callback || function(){});
     },
 
     process: function(src) {
