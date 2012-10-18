@@ -13,16 +13,16 @@ module.exports = (function(){
     return mustache.render(tmpl, data);
   };
 
-  var inject = function(tmplName, dataName, src, start, end) {
+  var inject = function(src, point) {
 
-      var tmpl = templates[tmplName];
-      var data = dataSets[dataName];
+      var tmpl = templates[point.template];
+      var data = dataSets[point.data];
 
-      if (!tmpl)    throw tmplName + " template not found";
-      if (!dataName) throw dataName + " data not found";
+      if (!tmpl)     throw point.template + " template not found";
+      if (!dataName) throw point.data + " data not found";
 
-      return src.substring(0, start)
-           + render(tmpl, data)
+      return src.substring(0, point.start)
+           + render(tmpl, point.data)
            + src.substring(end, src.length);
   };
 
@@ -126,13 +126,7 @@ module.exports = (function(){
     process: function(src) {
        
       findInjectionPoints(src).forEach(function(point) {
-        src = inject(
-          point.template,
-          point.data,
-          src,
-          point.start,
-          point.end
-        );
+        src = inject(src, point);
       });
 
       return src;
