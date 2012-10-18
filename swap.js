@@ -20,8 +20,8 @@ module.exports = (function(){
 
       data.params = point.params;
 
-      if (!tmpl)     throw point.template + " template not found";
-      if (!dataName) throw point.data + " data not found";
+      if (!tmpl)     throw { msg: point.template + "template not found" };
+      if (!dataName) throw { msg: point.data + " data not found" };
 
       return src.substring(0, point.start)
            + render(tmpl, point.data)
@@ -40,23 +40,28 @@ module.exports = (function(){
           params;
 
       if (!start) break;
-      if (!end)   throw "open/close mismatch error";
+      if (!end)   throw { msg: "open/close mismatch error", idx: start.index };
 
       var startContent = start[1].trim(),
           endContent = end[1].trim();
 
-      if (startContent == "end" || endContent != "end")
-        throw "open/close order error";
+      if (startContent == "end") throw { msg: "open order error",  idx: start.index };
+      if (endContent   != "end") throw { msg: "close order error", idx: end.index   };
 
       try {
         params = eval('({'+startContent+'})');
       } catch (e) {
-        throw "invalid open syntax";
+        throw { msg: "invalid open syntax", idx: start.index };
       }
 
-      if (!params)          throw "invalid open syntax";
-      if (!params.data)     throw "missing data parameter";
-      if (!params.template) throw "missing template parameter";
+      try {
+        if (!params)          throw { msg: "invalid open syntax" };
+        if (!params.data)     throw { msg: "missing data parameter" }
+        if (!params.template) throw { msg: "missing template parameter" };
+      catch (e) {
+        e.idx = start.index;
+        throw e;
+      }
 
       points.push({
         start:    start.index + start[0].length,
@@ -106,7 +111,7 @@ module.exports = (function(){
 
     var getLineNumber = function(src, idx) {
       var m = src.substr(0. idx).match(/(^|\r*\n)/g);
-      return (m ? m.length : 0) + 1;
+      return m ? m.length + 1 : 0) + 1;
     };
   };
 
@@ -143,7 +148,7 @@ module.exports = (function(){
       });
     },
 
-    process: function(src) {       
+    process: function(src) {
       return findInjectionPoints(src).reduce(function(s, point) {
         return inject(s, point);
       }, src);
@@ -152,8 +157,16 @@ module.exports = (function(){
     processFile: function(fname, fn) {
       var _this = this;
       fs.readFile(fname, 'utf-8', function(err, src) {
-        if (!err) fn(_this.process(src));
-        else throw "error reading " + fname;
+        if (!err) {
+          try {
+            fn(_this.process(src));
+          } catch (e) {
+            e.fname = fname;
+            e.line  = e.idx ? getLineNumber(src, e.idx) : null;
+            throw e;
+          }
+        }
+        else throw { msg: "error reading", fname: fname };
       });
     }
   };
