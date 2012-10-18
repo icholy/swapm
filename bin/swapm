@@ -6,7 +6,12 @@ var swapm  = require('../lib/core');
 var common = require('../lib/common');
 
 if (argv.init) {
-  common.initialize(typeof argv.init == 'string' ? argv.init : process.cwd());
+  try {
+    common.initialize(typeof argv.init == 'string' ? argv.init : process.cwd());
+  } catch (e) {
+    var errMsg = common.errorToString(e);
+    console.log(errMsg);
+  }
 } else if (argv._.length == 0) {
   console.log("\n   Usage: swapm [file] [file] ...\n");
 } else {
@@ -34,7 +39,6 @@ if (argv.init) {
         });
       });
     } else {
-      console.log(err);
       var errMsg = common.errorToString(err);
       console.log(errMsg);
     }
