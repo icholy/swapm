@@ -7,11 +7,23 @@ var common = require('../lib/common');
 if (argv.init) {
     common.initialize(typeof argv.init == 'string' ? argv.init : process.cwd());
 } else {
-    swap.load(null ,function() {
+    swap.load(null, function(err) {
+        if (!err) {
         argv._.forEach(function(arg) {
-            var src = swap.processFile(arg);
-            console.log("processed " + arg);
+          console.log("[+] Processing " + arg);
+          swap.processFile(arg, function(err, src) {
+            if (!err) {
+              console.log(src);
+            } else {
+              var errMsg = common.errorToString(err);
+              console.log(errMsg);
+            }
+          });
         });
+      } else {
+        var errMsg = common.errorToString(err);
+        console.log(errMsg);
+      }
     });
 }
 
