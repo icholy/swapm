@@ -1,4 +1,17 @@
-// the main bin
+#!/usr/bin/env node
 
-var swap     = require('../lib/core');
-var optimist = require('optimist');
+var argv = require('optimist').argv;
+var swap = require('../lib/core');
+var init = require('../lib/init');
+
+if (argv.init) {
+    init(typeof argv.init == 'string' : argv.init ? process.cwd());
+} else {
+    swap.load(function() {
+        argv._.forEach(function(arg) {
+            var src = swap.processFile(arg);
+            console.log("processed " + arg);
+        });
+    });
+}
+
