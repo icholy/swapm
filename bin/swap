@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-var argv = require('optimist').argv;
-var swap = require('../lib/core');
-var init = require('../lib/init');
+var argv   = require('optimist').argv;
+var swap   = require('../lib/core');
+var common = require('../lib/common');
 
 if (argv.init) {
-    init(typeof argv.init == 'string' ? argv.init : process.cwd());
+    common.initialize(typeof argv.init == 'string' ? argv.init : process.cwd());
 } else {
-    swap.load(function() {
+    swap.load(null ,function() {
         argv._.forEach(function(arg) {
-            // var src = swap.processFile(arg);
+            var src = swap.processFile(arg);
             console.log("processed " + arg);
         });
     });
