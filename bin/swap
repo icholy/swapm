@@ -15,12 +15,14 @@ if (argv.init) {
           if (!err) {
             console.log(src);
           } else {
+            console.log(err);
             var errMsg = common.errorToString(err);
             console.log(errMsg);
           }
         });
       });
     } else {
+      console.log(err);
       var errMsg = common.errorToString(err);
       console.log(errMsg);
     }
