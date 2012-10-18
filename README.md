@@ -26,9 +26,9 @@
 
     #endif /* FOO_H_ */
 
-**Data File:** `project/swap/data/d1.js`
+**Data File:** `project/swap/data/d1.json`
 
-    module.exports = {
+    {
       stuff: [
         { name: "id", type: "int8"  },
         { name: "bar",type: "float4"}
