@@ -99,6 +99,11 @@ module.exports = (function(){
       }
       next();
     });
+
+    var getLineNumber = function(src, idx) {
+      var m = src.substr(0. idx).match(/(^|\r*\n)/g);
+      return (m ? m.length : 0) + 1;
+    };
   };
 
   return {
