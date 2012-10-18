@@ -1,0 +1,17 @@
+{
+    "name": "swap",
+    "version": "0.0.1",
+    "description": "code generation for the rest of us",
+    "author": "icholy",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/icholy/swap.git"
+    },
+    "dependencies": {
+        "walk": "2.2.1",
+        "mustache": "0.7.0"
+    },
+    "engines": {
+        "node": "~0.6.10 || 0.8 || 0.9"
+    }
+}
