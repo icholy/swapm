@@ -18,6 +18,8 @@ module.exports = (function(){
       var tmpl = templates[point.template];
       var data = dataSets[point.data];
 
+      data.params = point.params;
+
       if (!tmpl)     throw point.template + " template not found";
       if (!dataName) throw point.data + " data not found";
 
