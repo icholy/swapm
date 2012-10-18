@@ -1,8 +1,16 @@
-# Swapm (Not ready for the public yet)
+# Swapm
 
 > Code generation for the rest of us
 
+## Install
+
+    npm install -g swapm
+
 ## Example
+
+**Initialize Project**
+
+    swapm --init
 
 **Source File:** `project/foo.h`
 
@@ -45,7 +53,7 @@
 
 ## Generate
 
-    swap foo.h
+    swapm *.h
 
 ## Output
 
@@ -57,10 +65,10 @@
 
     class Foo {
     private:
-      /*{ template: "t1", data: "d1" }*/
+      /*{{ template: "t1", data: "d1" }}*/
       PGint8 * _id;
       PGfloat4 * _bar;
-      /*{end}*/
+      /*{{end}}*/
     public:
       Foo(PGresult * res);
       virtual ~Foo();
