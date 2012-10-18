@@ -21,11 +21,17 @@
     #include <libpq-fe.h>
     #include <libpqtypes.h>
 
+    /*{{template: "foo_sql", data: "my_data"}}*/
+
+                              <-- generated code will go here
+
+    /*{{end}}*/
+
     class Foo {
     private:
-      /*{{template: "t1", data: "d1"}}*/
+      /*{{template: "foo_members", data: "my_data"}}*/  
 
-                          <-- generated code will go here
+                              <-- and here
 
       /*{{end}}*/
     public:
@@ -35,7 +41,7 @@
 
     #endif /* FOO_H_ */
 
-**Data File:** `project/swapm/data/d1.json`
+**Data File:** `project/swapm/data/my_data.json`
 
     {
       stuff: [
@@ -47,9 +53,7 @@
       }
     }
 
-**Template File:** `project/swapm/templates/t1.tmpl`
-
-> Mustache templates are used by default, but the engine will be configurable :)  
+**Template 1:** `project/swapm/templates/foo_members.tmpl`
 
     {{#stuff}}
       PG{{type}} * _{{name}};
@@ -60,6 +64,10 @@ this will have the same result
     {{#stuff}}
       {{pgType}}
     {{/stuff}}
+
+**Template 2** `project/swapm/templates/foo_sql.tmpl`
+
+    #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
 
 ## Generate
 
@@ -73,12 +81,17 @@ this will have the same result
     #include <libpq-fe.h>
     #include <libpqtypes.h>
 
+    /*{{template: "foo_sql", data: "my_data"}}*/
+    #define QUERY "SELECT id, bar FROM my_table"
+    /*{{end}}*/
+
     class Foo {
     private:
-      /*{{ template: "t1", data: "d1" }}*/
-      PGint8 * _id;
-      PGfloat4 * _bar;
-      /*{{end}}*/
+
+    /*{{template: "foo_members", data: "my_data"}}*/
+        PGint8 * _id
+        PGfloat4 * _bar
+    /*{{end}}*/
     public:
       Foo(PGresult * res);
       virtual ~Foo();
