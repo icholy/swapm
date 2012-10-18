@@ -143,13 +143,10 @@ module.exports = (function(){
       });
     },
 
-    process: function(src) {
-       
-      findInjectionPoints(src).reduce(function(s, point) {
+    process: function(src) {       
+      return findInjectionPoints(src).reduce(function(s, point) {
         return inject(s, point);
       }, src);
-
-      return src;
     },
 
     processFile: function(fname, fn) {
