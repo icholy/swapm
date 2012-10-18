@@ -7,6 +7,8 @@ var common = require('../lib/common');
 
 if (argv.init) {
   common.initialize(typeof argv.init == 'string' ? argv.init : process.cwd());
+} else if (argv._.length == 0) {
+  console.log("\n   Usage: swap [file] [file] ...\n");
 } else {
   swap.load(null, function(err) {
     if (!err) {
