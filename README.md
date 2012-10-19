@@ -1,4 +1,4 @@
-# Swapm (pronounced swap'em)
+# Swap'Em
 
 > Code generation for the rest of us
 
