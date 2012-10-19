@@ -104,5 +104,53 @@ describe('core', function() {
       assert.equal(res, "//[=[template: 'my_template', data:{\n\titems:[1,2]\n}]=]\n12\n/* [=[end]=] */")
     });
 
+    it('should throw an exception when an end tag is found with no open tag', function() {
+      swapm.reset();  
+      var text = "[=[end]=]";
+      assert.throws(function(){
+        swapm.process(text, false);
+      });
+    });
+
+    it('should throw an exception when an open inj tag is found with no close tag', function() {
+      swapm.reset();  
+      var text = "[=[template: 'foo', data: 'foo']=]";
+      assert.throws(function(){
+        swapm.process(text, false);
+      });
+    });
+
+    it('should throw an exception when an open & close inj tags are out of order', function() {
+      swapm.reset();  
+      var text = "[=[end]=] \n\n [=[template: 'foo', data: 'foo']=]";
+      assert.throws(function(){
+        swapm.process(text, false);
+      });
+    });
+
+    it('should throw an exception when open inj tag does not have a data parameter', function() {
+      swapm.reset();  
+      var text = "[=[template: 'foo']=]\n\n[=[end]=]";
+      assert.throws(function(){
+        swapm.process(text, false);
+      });
+    });
+
+    it('should throw an exception when open inj tag does not have a template parameter', function() {
+      swapm.reset();  
+      var text = "[=[data: 'foo']=]\n\n[=[end]=]";
+      assert.throws(function(){
+        swapm.process(text, false);
+      });
+    });
+
+    it('should throw an exception when another open inj tag is found before the last one is closed', function() {
+      swapm.reset();  
+      var text = "[=[data: 'foo', template: 'foo']=]\n\n[=[data: 'foo', template: 'foo']=]";
+      assert.throws(function(){
+        swapm.process(text, false);
+      });
+    });
+
   });
 });
