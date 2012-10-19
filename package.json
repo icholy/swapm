@@ -8,6 +8,9 @@
         "type": "git",
         "url": "git://github.com/icholy/swapm.git"
     },
+    "scripts": {
+        "test": "mocha"
+    },
     "dependencies": {
         "walk": "2.2.1",
         "mustache": "0.7.0",
