@@ -34,14 +34,14 @@ if (argv.init) {
         }
 
         if (src === null) {
-            console.log("[-] NO CHANGES :", arg);
-            return;
+          console.log("[-] NO CHANGES :", arg);
+          return;
         }
 
         fs.writeFile(arg, src, function(err) {
-            console.log(!!err
-              ? "[-] ERROR : failed to write " + arg
-              : "[+] WRITING : " + arg);
+          console.log(!!err
+            ? "[-] ERROR : failed to write " + arg
+            : "[+] WRITING : " + arg);
         });
       });
     });
