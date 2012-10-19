@@ -121,7 +121,7 @@ describe('core', function() {
     });
 
     it('should throw an exception when an open & close inj tags are out of order', function() {
-      swapm.reset();  
+      swapm.reset();
       var text = "[=[end]=] \n\n [=[template: 'foo', data: 'foo']=]";
       assert.throws(function(){
         swapm.process(text, false);
@@ -152,5 +152,15 @@ describe('core', function() {
       });
     });
 
+    it('should throw an exception when finding a dangling tag delimiter', function() {
+      swapm.reset();  
+      var text = "[=[data: 'foo', template: 'foo']=]\n\n[=[end]=]";
+      assert.throws(function(){
+        swapm.process(text + " [=[", false);
+      });
+      assert.throws(function(){
+        swapm.process(text + " ]=]", false);
+      });
+    });
   });
 });
