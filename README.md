@@ -78,8 +78,6 @@ The open tag must state the template and data to use.
 
 **File:** `project/swapm/data/my_data.json`
 
-**Content:**
-
     {
       foo: "bar",
       bar: [1, 2, 3, 4]
@@ -100,8 +98,6 @@ The open tag must state the template and data to use.
 ### .tmpl file
 
 **File:** `project/swapm/templates/my_template.tmpl`
-
-**Content:**
 
     Foo: {{foo}}
     Bars: {{#bar}}{{.}}{{/bar}}
