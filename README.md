@@ -31,7 +31,7 @@ The open tag must state the template and data to use.
 
 * The template is rendered and injected between the two tags.
 * Injection tags can span multiple lines. 
-* The syntax used to comment out a tag cannot be on their own line.
+* The syntax used to comment out a tag cannot be on its own line.
 
 ### Good
 
@@ -229,3 +229,7 @@ this will have the same result
     };
 
     #endif /* FOO_H_ */
+
+# Warning
+
+this is a work in progress and it might eat your code.
