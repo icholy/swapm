@@ -90,14 +90,14 @@ The open tag must state the template and data to use.
 * Mustache is the templating engine used.
 * There are two ways of defining a template
 
-## Source block
+### Source block
 
     [@my_template=[
       Foo: {{foo}}
       Bars: {{#bar}}{{.}}{{/bar}}
     ]=]
 
-## .tmpl file
+### .tmpl file
 
 **File:** `project/swapm/templates/my_template.tmpl`
 
@@ -106,7 +106,7 @@ The open tag must state the template and data to use.
     Foo: {{foo}}
     Bars: {{#bar}}{{.}}{{/bar}}
 
-## Computed Properties
+### Computed Properties
 
 This is a mustache feature but it's essential to know when using swapm.
 
@@ -222,7 +222,7 @@ this will have the same result
         PGint8 * _id;
         PGfloat4 * _bar;
     // [=[end]=]
-    
+
     public:
       Foo(PGresult * res);
       virtual ~Foo();
