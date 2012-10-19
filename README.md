@@ -29,11 +29,9 @@ The open tag must state the template and data to use.
 
     [=[end]=]
 
-The template is rendered and injected between the two tags.
-
-**Note:** 
-Injection tags can span multiple lines. 
-However, the syntax used to comment out a tag cannot be on their own line.
+* The template is rendered and injected between the two tags.
+* Injection tags can span multiple lines. 
+* The syntax used to comment out a tag cannot be on their own line.
 
 ### Good
 
@@ -99,7 +97,7 @@ However, the syntax used to comment out a tag cannot be on their own line.
       Bars: {{#bar}}{{.}}{{/bar}}
     ]=]
 
-## .tmpl File
+## .tmpl file
 
 **File:** `project/swapm/templates/my_template.tmpl`
 
@@ -147,9 +145,11 @@ This is a mustache feature but it's essential to know when using swapm.
     #include <libpq-fe.h>
     #include <libpqtypes.h>
 
-    /*[@foo_mysql=[
+    /*
+    [@foo_mysql=[
       #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
-    ]]*/
+    ]=]
+    */
 
     // [=[template: "foo_sql", data: "my_data"]=]
 
@@ -157,10 +157,11 @@ This is a mustache feature but it's essential to know when using swapm.
 
     class Foo {
     private:
-      // [=[template: "foo_members", data: "my_data"]=]
 
+    // [=[template: "foo_members", data: "my_data"]=]
 
-      // [=[end]=]
+    // [=[end]=]
+
     public:
       Foo(PGresult * res);
       virtual ~Foo();
@@ -192,11 +193,11 @@ this will have the same result
       {{pgType}}
     {{/stuff}}
 
-## Generate
+### Generate
 
     swapm *.h
 
-## Output
+### Output
 
     #ifndef FOO_H_
     #define FOO_H_
@@ -204,21 +205,24 @@ this will have the same result
     #include <libpq-fe.h>
     #include <libpqtypes.h>
 
-    /*[@foo_mysql=[
+    /*
+    [@foo_mysql=[
       #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
-    ]]*/
+    ]=]
+    */
 
-    /*[=[template: "foo_sql", data: "my_data"]=]*/
+    // [=[template: "foo_sql", data: "my_data"]=]
     #define QUERY "SELECT id, bar FROM my_table"
-    /*[=[end]=]*/
+    // [=[end]=]
 
     class Foo {
     private:
 
-    /*[=[template: "foo_members", data: "my_data"]=]*/
+    // [=[template: "foo_members", data: "my_data"]=]
         PGint8 * _id;
         PGfloat4 * _bar;
-    /*[=[end]=]*/
+    // [=[end]=]
+    
     public:
       Foo(PGresult * res);
       virtual ~Foo();
