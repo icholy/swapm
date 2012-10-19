@@ -29,19 +29,23 @@ this will create a `project/swapm` directory where your data & templates live.
     #include <libpq-fe.h>
     #include <libpqtypes.h>
 
-    /*{{template: "foo_sql", data: "my_data"}}*/
+    /*[@foo_mysql=[
+      #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
+    ]]*/
+
+    /*[=[template: "foo_sql", data: "my_data"]=]*/
 
                               <-- generated code will go here
 
-    /*{{end}}*/
+    /*[=[end]=]*/
 
     class Foo {
     private:
-      /*{{template: "foo_members", data: "my_data"}}*/  
+      /*[=[template: "foo_members", data: "my_data"]=]*/  
 
                               <-- and here
 
-      /*{{end}}*/
+      /[=[end]=]*/
     public:
       Foo(PGresult * res);
       virtual ~Foo();
@@ -73,10 +77,6 @@ this will have the same result
       {{pgType}}
     {{/stuff}}
 
-**Template 2** `project/swapm/templates/foo_sql.tmpl`
-
-    #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
-
 ## Generate
 
     swapm *.h
@@ -89,17 +89,21 @@ this will have the same result
     #include <libpq-fe.h>
     #include <libpqtypes.h>
 
-    /*{{template: "foo_sql", data: "my_data"}}*/
+    /*[@foo_mysql=[
+      #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
+    ]]*/
+
+    /*[=[template: "foo_sql", data: "my_data"]=]*/
     #define QUERY "SELECT id, bar FROM my_table"
-    /*{{end}}*/
+    /*[=[end]=]*/
 
     class Foo {
     private:
 
-    /*{{template: "foo_members", data: "my_data"}}*/
+    /*[=[template: "foo_members", data: "my_data"]=]*/
         PGint8 * _id;
         PGfloat4 * _bar;
-    /*{{end}}*/
+    /*[=[end]=]*/
     public:
       Foo(PGresult * res);
       virtual ~Foo();
