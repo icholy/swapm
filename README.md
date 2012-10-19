@@ -65,7 +65,7 @@ this will create a `project/swapm` directory where your data & templates live.
       }
     }
 
-**Template 1:** `project/swapm/templates/foo_members.tmpl`
+**Template:** `project/swapm/templates/foo_members.tmpl`
 
     {{#stuff}}
       PG{{type}} * _{{name}};
