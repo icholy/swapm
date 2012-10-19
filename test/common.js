@@ -63,7 +63,7 @@ describe('common', function() {
     });
   });
 
-  describe('#errorToString', function() {
+  describe('#errorToString(e)', function() {
     it('should use "?" when there is no line number', function() {
       var err = { msg: "msg", fname: "file" };
       var str = common.errorToString(err);
@@ -91,7 +91,7 @@ describe('common', function() {
     });
   });
 
-  describe('#loadFiles', function() {
+  describe('#loadFiles(dir, callback)', function() {
 
     it('should load all the files', function(next) {
       var tmpPath = path.normalize('./test/tmp');
@@ -113,6 +113,29 @@ describe('common', function() {
 
         next();
       });
+    });
+  });
+
+  describe('#initialize(dir)', function() {
+    it('should initialize the required directories', function() {
+
+      var tmpPath = path.normalize('./test/tmp');
+      fs.mkdirSync(tmpPath);
+
+      common.initialize(tmpPath);
+      
+      var newPaths = ['swapm', 'swapm/templates', 'swapm/data'];
+      
+      newPaths.forEach(function(newPath) {
+        var exists = fs.existsSync(path.join(tmpPath, newPath));
+        assert.ok(exists);
+      });
+
+      newPaths.reverse().forEach(function(newPath) {
+        fs.rmdirSync(path.join(tmpPath, newPath));
+      });
+
+      fs.rmdirSync(tmpPath);
     });
   });
 });
