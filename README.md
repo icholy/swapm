@@ -170,7 +170,7 @@ This is a mustache feature but it's essential to know when using swapm.
     {
       stuff: [
         { name: "id", type: "int8"  },
-        { name: "bar",type: "float4"}
+        { name: "bar",type: "float4", last: true }
       ],
       pgType: function() {
         return ["\tPG", this.type, " * _", this.name, ";"].join('');
