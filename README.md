@@ -143,7 +143,7 @@ This is a mustache feature but it's essential to know when using swapm.
 
     /*
     [@foo_mysql=[
-      #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
+    #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
     ]=]
     */
 
@@ -208,15 +208,19 @@ this will have the same result
     */
 
     // [=[template: "foo_sql", data: "my_data"]=]
+
     #define QUERY "SELECT id, bar FROM my_table"
+
     // [=[end]=]
 
     class Foo {
     private:
 
     // [=[template: "foo_members", data: "my_data"]=]
+    
         PGint8 * _id;
         PGfloat4 * _bar;
+
     // [=[end]=]
 
     public:
