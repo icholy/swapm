@@ -121,7 +121,7 @@ describe('common', function() {
       var tmpPath = path.normalize('./test/tmp');
       fs.mkdirSync(tmpPath);
 
-      common.initialize(tmpPath);
+      common.initialize(tmpPath, false);
       
       var newPaths = ['swapm', 'swapm/templates', 'swapm/data'];
 
