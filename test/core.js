@@ -162,5 +162,23 @@ describe('core', function() {
         swapm.process(text + " ]=]", false);
       });
     });
+
+    it('should throw an exception when trying to add a template with an existing name', function() {
+      swapm.reset();
+      var text = "[@my_template=[{{foo}}]=]";
+      swapm.process(text, false);
+      assert.throws(function() {
+        swapm.process(text, false);
+      });
+    });
+
+    it('should throw an exception when trying to add data with an existing name', function() {
+      swapm.reset();
+      var text = "[#my_template=[{foo:123}]=]";
+      swapm.process(text, false);
+      assert.throws(function() {
+        swapm.process(text, false);
+      });
+    });
   });
 });
