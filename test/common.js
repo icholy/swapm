@@ -2,6 +2,7 @@ var common = require('../lib/common');
 var assert = require('assert');
 var fs     = require('fs');
 var path   = require('path');
+var wrench = require('wrench');
 
 describe('common', function() {
   
@@ -104,9 +105,7 @@ describe('common', function() {
 
       common.loadFiles(tmpPath, function(err, files) {
 
-        fs.unlinkSync(file1);
-        fs.unlinkSync(file2);
-        fs.rmdirSync(tmpPath);
+        wrench.rmdirSyncRecursive(tmpPath);
 
         assert.equal(files['file1'], 'file1');
         assert.equal(files['file2'], 'file2');
@@ -125,17 +124,13 @@ describe('common', function() {
       common.initialize(tmpPath);
       
       var newPaths = ['swapm', 'swapm/templates', 'swapm/data'];
-      
+
       newPaths.forEach(function(newPath) {
         var exists = fs.existsSync(path.join(tmpPath, newPath));
         assert.ok(exists);
       });
 
-      newPaths.reverse().forEach(function(newPath) {
-        fs.rmdirSync(path.join(tmpPath, newPath));
-      });
-
-      fs.rmdirSync(tmpPath);
+      wrench.rmdirSyncRecursive(tmpPath);
     });
   });
 });
