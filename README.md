@@ -203,7 +203,7 @@ this will have the same result
 
     /*
     [@foo_mysql=[
-      #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
+    #define QUERY "SELECT {{#stuff}}{{name}}{{^last}}, {{/last}}{{/stuff}} FROM my_table"
     ]=]
     */
 
