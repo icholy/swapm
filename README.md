@@ -1,4 +1,4 @@
-# Swapm
+# Swapm (pronounced swap'em)
 
 > Code generation for the rest of us
 
@@ -217,7 +217,7 @@ this will have the same result
     private:
 
     // [=[template: "foo_members", data: "my_data"]=]
-    
+
         PGint8 * _id;
         PGfloat4 * _bar;
 
