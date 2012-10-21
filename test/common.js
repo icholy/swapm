@@ -129,12 +129,17 @@ describe('common', function() {
 
       common.initialize(tmpPath, false);
       
-      var newPaths = ['swapm', 'swapm/templates', 'swapm/data'];
+      var newPaths = ['swapm', 'swapm/templates', 'swapm/data', 'swapm/config.json'];
 
-      newPaths.forEach(function(newPath) {
-        var exists = fs.existsSync(path.join(tmpPath, newPath));
-        assert.ok(exists);
-      });
+      try {
+        newPaths.forEach(function(newPath) {
+          var exists = fs.existsSync(path.join(tmpPath, newPath));
+          assert.ok(exists);
+        });
+      } catch (e) {
+        wrench.rmdirSyncRecursive(tmpPath);
+        throw e;
+      }
 
       wrench.rmdirSyncRecursive(tmpPath);
     });
