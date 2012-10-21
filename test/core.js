@@ -63,11 +63,7 @@ describe('core', function() {
 
     it('should parse multi-line data and source blocks', function() {
       var text = "[#foo=[{\n foo: 123,\nt: [1, 2, 3, 4]\n}]=]";
-      try {
-        swapm.process(text, false);
-      } catch (e) {
-        console.log(e);
-      }
+      swapm.process(text, false);
       var data = swapm.getData();
       assert.equal(data['foo'].foo, 123);
     });
@@ -83,26 +79,35 @@ describe('core', function() {
 
     it('should inject the result on its own line ', function() {
       var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
-      swapm.process(text, false);
-      var src = "//[=[template: 'my_template', data:{items:[1,2]}]=]\n//[=[end]=]";
-      var res = swapm.process(src, false);
-      assert.equal(res, "//[=[template: 'my_template', data:{items:[1,2]}]=]\n12\n//[=[end]=]")
+      text += "\n//[=[template: 'my_template', data:{items:[1,2]}]=]\n//[=[end]=]";
+
+      var exp = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
+      exp += "\n//[=[template: 'my_template', data:{items:[1,2]}]=]\n12\n//[=[end]=]";
+
+      var res = swapm.process(text, false);
+      assert.equal(res, exp);
     });
 
     it('should inject the result on its own line, when there is already data', function() {
-      var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
-      swapm.process(text, false);
-      var src = "//[=[template: 'my_template', data:{items:[1,2]}]=]\n\n\n\n\n\n/* [=[end]=] */";
-      var res = swapm.process(src, false);
-      assert.equal(res, "//[=[template: 'my_template', data:{items:[1,2]}]=]\n12\n/* [=[end]=] */")
+      var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]\n";
+      text += "//[=[template: 'my_template', data:{items:[1,2]}]=]\n//[=[end]=]";
+
+      var exp = "[@my_template=[{{#items}}{{.}}{{/items}}]=]\n";
+      exp += "//[=[template: 'my_template', data:{items:[1,2]}]=]\n12\n//[=[end]=]";
+
+      var res = swapm.process(text, false);
+      assert.equal(res, exp);
     });
 
     it('should handle multiline injection tags', function() {
-      var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
-      swapm.process(text, false);
-      var src = "//[=[template: 'my_template', data:{\n\titems:[1,2]\n}]=]\n\n\n\n\n\n/* [=[end]=] */";
-      var res = swapm.process(src, false);
-      assert.equal(res, "//[=[template: 'my_template', data:{\n\titems:[1,2]\n}]=]\n12\n/* [=[end]=] */")
+      var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]\n";
+      text += "//[=[template: 'my_template', data:{\n\titems:[1,2]\n}]=]\n\n\n\n\n\n/* [=[end]=] */";
+
+      var exp = "[@my_template=[{{#items}}{{.}}{{/items}}]=]\n";
+      exp += "//[=[template: 'my_template', data:{\n\titems:[1,2]\n}]=]\n12\n/* [=[end]=] */";
+
+      var res = swapm.process(text, false);
+      assert.equal(res, exp);
     });
 
     it('should throw an exception when open and close inj tags are on the same line', function() {
@@ -172,8 +177,7 @@ describe('core', function() {
     });
 
     it('should throw an exception when trying to add a template with an existing name', function() {
-      var text = "[@my_template=[{{foo}}]=]";
-      swapm.process(text, false);
+      var text = "[@my_template=[{{foo}}]=] [@my_template=[{{foo}}]=]";
       assert.throws(function() {
         swapm.process(text, false);
       });
@@ -189,10 +193,8 @@ describe('core', function() {
 
     it('show throw an exception when trying to use a block template from another file', function() {
       var file1Text = "[@foo=[\ntest\n]=]";
-      var file2Text = "[=[template:'foo', data: {}]=]";
-
+      var file2Text = "[=[template:'foo', data: {}]=]\n[=[end]=]";
       swapm.process(file1Text, false);
-
       assert.throws(function() {
         swapm.process(file2Text, false);
       });
