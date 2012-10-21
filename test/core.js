@@ -63,7 +63,11 @@ describe('core', function() {
 
     it('should parse multi-line data and source blocks', function() {
       var text = "[#foo=[{\n foo: 123,\nt: [1, 2, 3, 4]\n}]=]";
-      swapm.process(text, false);
+      try {
+        swapm.process(text, false);
+      } catch (e) {
+        console.log(e);
+      }
       var data = swapm.getData();
       assert.equal(data['foo'].foo, 123);
     });
@@ -77,7 +81,7 @@ describe('core', function() {
       assert.equal(templates['bob'], 'hello')
     });
 
-    it('should inject the result on its own line', function() {
+    it('should inject the result on its own line ', function() {
       var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
       swapm.process(text, false);
       var src = "//[=[template: 'my_template', data:{items:[1,2]}]=]\n//[=[end]=]";
@@ -85,7 +89,7 @@ describe('core', function() {
       assert.equal(res, "//[=[template: 'my_template', data:{items:[1,2]}]=]\n12\n//[=[end]=]")
     });
 
-    it('should inject the result on its own line when there is already data', function() {
+    it('should inject the result on its own line, when there is already data', function() {
       var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
       swapm.process(text, false);
       var src = "//[=[template: 'my_template', data:{items:[1,2]}]=]\n\n\n\n\n\n/* [=[end]=] */";
