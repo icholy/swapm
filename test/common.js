@@ -48,6 +48,12 @@ describe('common', function() {
       assert.equal(4, common.getLineNumber(text, 10));
       assert.equal(4, common.getLineNumber(text, 14));
     });
+
+    it.only('should handle lines with no newline', function() {
+      var text = "1\n2";
+      assert.equal(2, common.getLineNumber(text, 2));
+    });
+
   });
 
   describe('#getAllMatches(src, re)', function() {
