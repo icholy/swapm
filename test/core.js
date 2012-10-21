@@ -190,8 +190,17 @@ describe('core', function() {
       });
     });
 
-    it('show throw an exception when trying to use a block template from another file', function() {
+    it('should throw an exception when trying to use a block template from another file', function() {
       var file1Text = "[@foo=[\ntest\n]=]";
+      var file2Text = "[=[template:'foo', data: {}]=]\n[=[end]=]";
+      swapm.process(file1Text, false);
+      assert.throws(function() {
+        swapm.process(file2Text, false);
+      });
+    });
+
+    it('should throw an exception when trying to use block data from another file', function() {
+      var file1Text = "[#foo=[{}]=]";
       var file2Text = "[=[template:'foo', data: {}]=]\n[=[end]=]";
       swapm.process(file1Text, false);
       assert.throws(function() {
