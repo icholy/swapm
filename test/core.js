@@ -74,7 +74,7 @@ describe('core', function() {
       var data = swapm.getData();
       var templates = swapm.getTemplates();
       assert.equal(data['foo'].foo, 123);
-      assert.equal(templates['bob'], 'hello')
+      assert.equal(templates['bob'], 'hello');
     });
 
     it('should inject the result on its own line ', function() {
@@ -184,8 +184,7 @@ describe('core', function() {
     });
 
     it('should throw an exception when trying to add data with an existing name', function() {
-      var text = "[#my_template=[{foo:123}]=]";
-      swapm.process(text, false);
+      var text = "[#my_template=[{foo:123}]=] [#my_template=[{foo:123}]=]";
       assert.throws(function() {
         swapm.process(text, false);
       });
