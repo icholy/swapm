@@ -5,9 +5,14 @@ var fs     = require('fs');
 var swapm  = require('../lib/core');
 var common = require('../lib/common');
 
+var defaultConfig = {
+  include: [],
+  exclude: ['swapm/']
+};
+
 if (argv.init) {
   try {
-    common.initialize(typeof argv.init == 'string' ? argv.init : process.cwd());
+    common.initialize(typeof argv.init == 'string' ? argv.init : process.cwd(), defaultConfig);
   } catch (e) {
     var errMsg = common.errorToString(e);
     console.log(errMsg);
