@@ -210,5 +210,12 @@ describe('core', function() {
       });
     });
 
+    it.only('should error if trying to define 2 templates with the same name', function() {
+      var text = "[@sql_template=[]=] [@sql_template=[]=]";
+      assert.throws(function() {
+        swapm.process(text);
+      });
+    });
+
   });
 });
