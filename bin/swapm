@@ -15,32 +15,28 @@ if (argv.init) {
 } else if (argv._.length === 0) {
   console.log("\n   Usage: swapm [file] [file] ...\n");
 } else {
+
   swapm.load(null, function(err) {
-    if (!err) {
+    if (err) {
+      var errMsg = common.errorToString(err);
+      console.log(errMsg);
+    } else {
       argv._.forEach(function(arg) {
+        
         console.log("[+] READING :", arg);
+
         swapm.processFile(arg, function(err, src) {
-          if (!err) {
-            if (src === null) {
-              console.log("[-] NO CHANGES :", arg);
-            } else {
-              fs.writeFile(arg, src, function(err) {
-                if (err) {
-                  console.log("[-] ERROR : failed to write", arg);
-                } else {
-                  console.log("[+] WRITING :", arg);
-                }
-              });
-            }
-          } else {
-            var errMsg = common.errorToString(err);
-            console.log(errMsg);
+          if (err)               { console.log(common.errorToString(err)); } 
+          else if (src === null) { console.log("[-] NO CHANGES :", arg);   } 
+          else {
+            fs.writeFile(arg, src, function(err) {
+              console.log(!!err
+                ? "[-] ERROR : failed to write " + arg
+                : "[+] WRITING : " + arg);
+            });
           }
         });
       });
-    } else {
-      var errMsg = common.errorToString(err);
-      console.log(errMsg);
     }
   });
 }
