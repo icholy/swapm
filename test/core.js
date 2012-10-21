@@ -35,8 +35,12 @@ describe('core', function() {
   });
 
   describe('#process(src)', function() {
-    it('should parse the template source block', function() {
+
+    beforeEach(function() {
       swapm.reset();
+    });
+
+    it('should parse the template source block', function() {
       var text = "[@foo=[foo]=]";
       swapm.process(text, false);
       var templates = swapm.getTemplates();
@@ -44,7 +48,6 @@ describe('core', function() {
     });
 
     it('should parse the multi-line template source block', function() {
-      swapm.reset();
       var text = "\n[@foo=[\nfoo\n]=]\n";
       swapm.process(text, false);
       var templates = swapm.getTemplates();
@@ -52,7 +55,6 @@ describe('core', function() {
     });
 
     it('should parse data source blocks', function() {
-      swapm.reset();
       var text = " [#foo=[{ foo: 123 }]=] ";
       swapm.process(text, false);
       var data = swapm.getData();
@@ -60,7 +62,6 @@ describe('core', function() {
     });
 
     it('should parse multi-line data and source blocks', function() {
-      swapm.reset();
       var text = "[#foo=[{\n foo: 123,\nt: [1, 2, 3, 4]\n}]=]";
       swapm.process(text, false);
       var data = swapm.getData();
@@ -68,7 +69,6 @@ describe('core', function() {
     });
 
     it('should parse multi-line data & templates blocks with junk', function() {
-      swapm.reset();
       var text = "[df=[fdr\n[@bob=[hello]=] }=[dfjkdf-=3[\n\r[[#foo=[{\n foo: 123,\nt: [1, 2, 3, 4]\n}]=]}]]";
       swapm.process(text, false);
       var data = swapm.getData();
@@ -78,7 +78,6 @@ describe('core', function() {
     });
 
     it('should inject the result on its own line', function() {
-      swapm.reset();  
       var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
       swapm.process(text, false);
       var src = "//[=[template: 'my_template', data:{items:[1,2]}]=]\n//[=[end]=]";
@@ -87,7 +86,6 @@ describe('core', function() {
     });
 
     it('should inject the result on its own line when there is already data', function() {
-      swapm.reset();  
       var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
       swapm.process(text, false);
       var src = "//[=[template: 'my_template', data:{items:[1,2]}]=]\n\n\n\n\n\n/* [=[end]=] */";
@@ -96,7 +94,6 @@ describe('core', function() {
     });
 
     it('should handle multiline injection tags', function() {
-      swapm.reset();  
       var text = "[@my_template=[{{#items}}{{.}}{{/items}}]=]";
       swapm.process(text, false);
       var src = "//[=[template: 'my_template', data:{\n\titems:[1,2]\n}]=]\n\n\n\n\n\n/* [=[end]=] */";
@@ -104,8 +101,20 @@ describe('core', function() {
       assert.equal(res, "//[=[template: 'my_template', data:{\n\titems:[1,2]\n}]=]\n12\n/* [=[end]=] */")
     });
 
+    it('should throw an exception when open and close inj tags are on the same line', function() {
+      var text = "[@my_template=[hello]=][=[template: 'my_template', data: {}]=] [=[end]=]"
+      assert.throws(function() {
+        swapm.process(text);
+      });
+    });
+
+    it('should work with an empty template', function() {
+      var text = "[@foo=[]=] [=[template: 'foo', data: {}]=]\n[=end=]";
+      var res = swapm.process(text);
+      assert.equal(res, "[@foo=[]=] [=[template: 'foo', data: {}]=]\n[=end=]");
+    });
+
     it('should throw an exception when an end tag is found with no open tag', function() {
-      swapm.reset();  
       var text = "[=[end]=]";
       assert.throws(function(){
         swapm.process(text, false);
@@ -113,7 +122,6 @@ describe('core', function() {
     });
 
     it('should throw an exception when an open inj tag is found with no close tag', function() {
-      swapm.reset();  
       var text = "[=[template: 'foo', data: 'foo']=]";
       assert.throws(function(){
         swapm.process(text, false);
@@ -121,7 +129,6 @@ describe('core', function() {
     });
 
     it('should throw an exception when an open & close inj tags are out of order', function() {
-      swapm.reset();
       var text = "[=[end]=] \n\n [=[template: 'foo', data: 'foo']=]";
       assert.throws(function(){
         swapm.process(text, false);
@@ -129,7 +136,6 @@ describe('core', function() {
     });
 
     it('should throw an exception when open inj tag does not have a data parameter', function() {
-      swapm.reset();  
       var text = "[=[template: 'foo']=]\n\n[=[end]=]";
       assert.throws(function(){
         swapm.process(text, false);
@@ -137,7 +143,6 @@ describe('core', function() {
     });
 
     it('should throw an exception when open inj tag does not have a template parameter', function() {
-      swapm.reset();  
       var text = "[=[data: 'foo']=]\n\n[=[end]=]";
       assert.throws(function(){
         swapm.process(text, false);
@@ -145,7 +150,6 @@ describe('core', function() {
     });
 
     it('should throw an exception when another open inj tag is found before the last one is closed', function() {
-      swapm.reset();  
       var text = "[=[data: 'foo', template: 'foo']=]\n\n[=[data: 'foo', template: 'foo']=]";
       assert.throws(function(){
         swapm.process(text, false);
@@ -153,7 +157,6 @@ describe('core', function() {
     });
 
     it('should throw an exception when finding a dangling tag delimiter', function() {
-      swapm.reset();  
       var text = "[=[data: 'foo', template: 'foo']=]\n\n[=[end]=]";
       assert.throws(function(){
         swapm.process(text + " [=[", false);
@@ -164,7 +167,6 @@ describe('core', function() {
     });
 
     it('should throw an exception when trying to add a template with an existing name', function() {
-      swapm.reset();
       var text = "[@my_template=[{{foo}}]=]";
       swapm.process(text, false);
       assert.throws(function() {
@@ -173,12 +175,23 @@ describe('core', function() {
     });
 
     it('should throw an exception when trying to add data with an existing name', function() {
-      swapm.reset();
       var text = "[#my_template=[{foo:123}]=]";
       swapm.process(text, false);
       assert.throws(function() {
         swapm.process(text, false);
       });
     });
+
+    it('show throw an exception when trying to use a block template from another file', function() {
+      var file1Text = "[@foo=[\ntest\n]=]";
+      var file2Text = "[=[template:'foo', data: {}]=]";
+
+      swapm.process(file1Text);
+
+      assert.throws(function() {
+        swapm.process(file2Text);
+      });
+    });
+
   });
 });
