@@ -1,6 +1,6 @@
 {
     "name": "swapm",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "code generation for the rest of us",
     "author": "icholy",
     "main": "./lib/core",
