@@ -1,4 +1,4 @@
-# Swap'Em [![Build Status](https://travis-ci.org/icholy/swapms.png?branch=master)](https://travis-ci.org/icholy/swapms)
+# Swap'Em [![Build Status](https://travis-ci.org/icholy/swapm.png?branch=stable)](https://travis-ci.org/icholy/swapm)
 
 > Code generation for the rest of us
 
